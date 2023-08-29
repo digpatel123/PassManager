@@ -2,6 +2,7 @@ from tkinter import *
 import random
 import string
 from tkinter import messagebox
+import pyperclip
 
 def save_data(website, email, password):
     with open("data.txt", "a") as file:
@@ -38,6 +39,7 @@ def create_form():
     website_entry.grid(row=1, column=1, columnspan=2, sticky="we")
     email_entry = Entry(width=35)
     email_entry.grid(row=2, column=1, columnspan=2, sticky="we")
+    email_entry.insert(0, "dj@dj.com")
     pass_entry = Entry(width=21)
     pass_entry.grid(row=3, column=1, sticky="w")
 
@@ -61,6 +63,7 @@ def create_form():
         password = generate_password()
         pass_entry.delete(0, END)
         pass_entry.insert(0, password)
+        pyperclip.copy(password)
 
     # Creating buttons
     gen_pass_button = Button(text="Generate password", command=generate_and_insert_password)
