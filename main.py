@@ -1,6 +1,7 @@
 from tkinter import *
 import random
 import string
+from tkinter import messagebox
 
 def save_data(website, email, password):
     with open("data.txt", "a") as file:
@@ -9,7 +10,7 @@ def save_data(website, email, password):
         file.write(f"Password: {password}\n\n")
 
 def generate_password():
-    password_length = 12
+    password_length = random.randint(8,13)
     password_characters = string.ascii_letters + string.digits + string.punctuation
     password = ''.join(random.choice(password_characters) for _ in range(password_length))
     return password
@@ -44,10 +45,17 @@ def create_form():
         website = website_entry.get()
         email = email_entry.get()
         password = pass_entry.get()
-        save_data(website, email, password)
-        website_entry.delete(0, END)
-        email_entry.delete(0, END)
-        pass_entry.delete(0, END)
+
+        if website == "" or email == "" or password == "":
+            messagebox.showerror("Error", "Please enter all the details to add to your data file.")
+        else:
+            confirmation_message = f"Website: {website}\nEmail/Username: {email}\nPassword: {password}"
+            response = messagebox.askquestion("Confirmation", confirmation_message)
+            if response == "yes":
+                save_data(website, email, password)
+                website_entry.delete(0, END)
+                email_entry.delete(0, END)
+                pass_entry.delete(0, END)
 
     def generate_and_insert_password():
         password = generate_password()
